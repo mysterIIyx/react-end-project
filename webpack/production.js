@@ -1,45 +1,42 @@
-const { cleanWebpackPlugin } = require('clean-webpack-plugin');
+// production.js - POPRAWIONY
+const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // POPRAWIONE NAZWNICTWO
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin"); // NOWOCZESNY MINIMIZER
 const TerserPlugin = require("terser-webpack-plugin");
 const { resolve } = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path').resolve;
 
-
 module.exports = {
-  optimization: {
-      minimizer: [new TerserPlugin({}), new OptimizeCSSAssetsPlugin({})],
-  },
+    optimization: {
+        // Używamy nowoczesnych minimizerów
+        minimizer: [new TerserPlugin({}), new CssMinimizerPlugin({})], 
+    },
 
-    plugins: [
-        new cleanWebpackPlugin(),
-    ],
     module: {
         rules: [{
-          test: /\.module\.s(a|c)ss$/,
-          use: [
-            MiniCssExtractPlugin.loader, 
-            {
-              loader:'css-loader'
-            },
-            {
-              loader:'sass-loader',
-              options: {
-                sourceMap: true,
-              },
-            },
-          ]
+            test: /\.module\.s(a|c)ss$/,
+            use: [
+                MiniCssExtractPlugin.loader,
+                {
+                    loader: 'css-loader'
+                },
+                {
+                    loader: 'sass-loader',
+                    options: {
+                        sourceMap: true,
+                    },
+                },
+            ]
         }]
+        // Brak drugiej reguły, która powinna być w pliku wspólnym lub produkcyjnym
     },
-    plugins: [
-      new CleanWebpackPlugin(),
-      new MiniCssExtractPlugin({
-        filename: 'style.[contenthash].css',
-        chunkFilename: 'style.[contenthash].css',
-        publicPath: './',
-      }),
+
+    // JEDNA, POPRAWNA SEKCJA PLUGINS
+    pplugins: [
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'style.[contenthash].css',
+      chunkFilename: 'style.[contenthash].css',
+        }),
     ],
 };
-
-// webpack.config.js
