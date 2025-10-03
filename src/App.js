@@ -1,6 +1,7 @@
 import React from 'react';
 import './sass/app.sass';
 import StoreProvider from './store/StoreProvider';
+import Header from './components/Header';
 
 
 function App() {
@@ -8,7 +9,7 @@ function App() {
     <div>
       {/* Sprawdź, czy masz tu jakiś widoczny tekst! */}
       <StoreProvider>
-        <h1>APLIKACJA DZIAŁA!</h1>
+        <Header />
       </StoreProvider>
       
     </div>
